@@ -1,6 +1,14 @@
 # DevOps Engineer assignment
 
+This document contains description and requirements for assignment for DevOps Engineer position.
+
 ## Requirements
+
+## Goal
+
+1. Verify candidate's ability to work with Docker
+2. Verify candidate's ability to create running environment with different services
+3. Verify candidate's ability to setup services with security in mind
 
 ### Docker - PHP - NodeJS
 

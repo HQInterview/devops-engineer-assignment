@@ -4,54 +4,24 @@ This document contains description and requirements for assignment for DevOps En
 
 ## Requirements
 
-## Goal
+### Problem
+In production environment, our system is connecting to 2 MySQL database instances.
+We would like to clone these 2 databases into test environment every night. Therefore, test databases are in-sync and developers can test around in test environment without effecting production data.
 
-1. Verify candidate's ability to work with Docker
-2. Verify candidate's ability to create running environment with different services
-3. Verify candidate's ability to setup services with security in mind
+### Question
+1. Please find the solution how to make test databases get cloned every night.
+2. Please also setup OpenVPN Server, to allow developers to access it. It should route the traffic through this VPN only when client made a connection to the test databases.
+3. Beside OpenVPN, please also make sure that only the applications in following server can made a connection to this new databases. Connection that are not come from following ip addresses should be failed to established.
+- 1st Server: x.x.x.x
+- 2nd Server: y.y.y.y
 
-### Docker - PHP - NodeJS
+### Preparation
+1. We will give you an access to google cloud platform, in google cloud console, you will find alice-produciton-db and brandy-production-db in CloudSQL.
+2. You will have privileges to create compute engine that you may needed for this pilot project.
+3. You will have privileges to set networking and firewall rules to make sure that our system are protected by high security.
 
-* For PHP: Wordpress, for NodeJS: Ghost
-* Create 2 different docker environments using docker-compose, each service in the environment should run in a separate container, make sure using latest v2 syntax
-
-    * Database (MySQL, MariaDB)
-    * PHP-FPM
-    * NodeJS
-    * Nginx
-    * Data container for files
-
-* Make sure all data will be persistent using volume mounts
-* Make sure services will start in the right order (i.e. wait for mysql initialization)
-* Add a custom configuration to Nginx
-
-    * Enable HTTPS and redirect HTTP to HTTPS
-    * Create a self-signed certificate or use LetsEncrypt, also document the commands you are using to create the certificate
-    * Use TLS only
-    * Use strong ciphers only
-    * Generate a DH key and enable dhparam, also document the commands you are using to create a dh key
-    * Enable	HSTS
-    * Enable OCSP Stapling
-    * Enable Nginx Microcaching and make sure Cache is not enabled in Admin Area and for logged in users
-    * Add any other configuration you may think is important (headers, deny access to important files and folders, ...)
-
-* Add a custom php-fpm config
-
-    * For process management: choose either static, on demand, dynamic, also explain your decision
-    * Listen directive: choose either Socket or TCP, also explain your decision
-    * Add any other configuration you may think is important (number of workers, timeout, …)
-
-* Commit both projects to Github and write your explanations and documentations into the readme
-* Both environments need to work after we clone it and run docker-compose up
-
-### Cache - Redis - Memcached
-
-* Create two Service Unit files to start a Redis and Memcached docker container on a CoreOS Cluster using fleetctl
-
-    * Make sure when starting the service it will run only on one host in the cluster
-    * Make sure after a restart, cached data is persistent (if possible)
-
-* Create a Timer Unit File to execute a self written script by yourself (bash, python, ..) every 5 minutes to load some dummy data into Redis (can be simple key/value i.e. hello/world)
-
-* Commit all files to Github, write some documentation into the readme how to load and start the service units and how to execute the timer unit
-
+### Note
+1. Please first describe the intention of your solution and how it works in words.
+2. Please also take security in consideration, the database should not be accessed by world, only client that connect to OpenVPN and IP addresses in 3).
+3. The script should continuously run every night. Applications and developers should always can access to test databases everyday, anytime.
+4. If there are scripts in this pilot project, please also put into github public repo. Cleanliness and naming convention also scores.

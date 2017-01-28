@@ -5,23 +5,16 @@ This document contains description and requirements for assignment for DevOps En
 ## Requirements
 
 ### Problem
-In production environment, our system is connecting to 2 MySQL database instances.
-We would like to clone these 2 databases into test environment every night. Therefore, test databases are in-sync and developers can test around in test environment without effecting production data.
+The given system has 2 running application servers. Those servers are connecting to 2 MySQL database instances (`alice-production-db`, `brandy-production-db`). Developers are asking us to setup test databases that cloned from production db every night. So they can test around them without effecting production data.
 
 ### Question
-1. Please find the solution how to make test databases get cloned every night.
-2. Please also setup OpenVPN Server, to allow developers to access it. It should route the traffic through this VPN only when client made a connection to the test databases.
-3. Beside OpenVPN, please also make sure that only the applications in following server can made a connection to this new databases. Connection that are not come from following ip addresses should be failed to established.
-- 1st Server: x.x.x.x
-- 2nd Server: y.y.y.y
+1. Please setup new Admin Server for OpenVPN server. It should route client traffic through the VPN only when client made a connection to the databases.
+2. Please create ovpn file for us to test the connection.
+3. Please setup the solution that clone production database to test databases every night. Put the running script in Admin Server and also github public repo.
+4. Please provide us connection string for accessing databases. This connection should remain unchanged, even if the database has new clone.
+5. Please make sure that the database could not be connected by world. It should be allow only access from OpenVPN and application servers.
 
 ### Preparation
-1. We will give you an access to google cloud platform, in google cloud console, you will find alice-produciton-db and brandy-production-db in CloudSQL.
+1. We will give you an access to google cloud platform. In google cloud console, you will find alice-production-db and brandy-production-db in CloudSQL. `(User: root, empty password)` along with 2 application servers.
 2. You will have privileges to create compute engine that you may needed for this pilot project.
 3. You will have privileges to set networking and firewall rules to make sure that our system are protected by high security.
-
-### Note
-1. Please first describe the intention of your solution and how it works in words.
-2. Please also take security in consideration, the database should not be accessed by world, only client that connect to OpenVPN and IP addresses in 3).
-3. The script should continuously run every night. Applications and developers should always can access to test databases everyday, anytime.
-4. If there are scripts in this pilot project, please also put into github public repo. Cleanliness and naming convention also scores.
